@@ -155,8 +155,10 @@ function decideOutcome(
     return { kind: "kyc_pending", user };
   }
 
+  // F&O trade-ready on either exchange is enough: BSE activation often lags
+  // NSE by days, and a user live on one exchange can already trade F&O.
   if (
-    d.nse_fno_status !== "TRADE_READY" ||
+    d.nse_fno_status !== "TRADE_READY" &&
     d.bse_fno_status !== "TRADE_READY"
   ) {
     return { kind: "not_trade_ready", user };
